@@ -1,6 +1,6 @@
 # FITQ API
 
-Backend REST API for **FITQ** — an AI-powered outfit rating app. Users upload outfit photos and receive instant AI-generated scores (0–10) with detailed style analysis powered by Gemini 2.5 Flash.
+Backend REST API for **FITQ** — an AI-powered outfit rating app. Users upload outfit photos and receive instant AI-generated scores (0–10) with detailed style analysis powered by Gemini 2.5 Flash. 
 
 ## Tech Stack
 
