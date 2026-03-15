@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import errorHandler from './middleware/errorHandler';
 import authRouter from './routes/auth.routes';
+import scanRouter from './routes/scan.routes';
 
 const app: Application = express();
 
@@ -32,6 +33,7 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // Routes
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/scans', scanRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
