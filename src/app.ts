@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
 import errorHandler from './middleware/errorHandler';
+import authRouter from './routes/auth.routes';
 
 const app: Application = express();
 
@@ -29,7 +30,8 @@ app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// --- Routes go here (mounted per phase) ---
+// Routes
+app.use('/api/v1/auth', authRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
