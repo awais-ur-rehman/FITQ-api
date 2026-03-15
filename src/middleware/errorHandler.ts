@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
+import multer from 'multer';
 import ApiError from '../utils/apiError';
 
 interface MongoServerError extends Error {
@@ -28,6 +29,9 @@ const errorHandler = (
   } else if (err instanceof mongoose.Error.ValidationError) {
     const messages = Object.values(err.errors).map((e) => e.message);
     error = new ApiError(400, messages.join('. '));
+  } else if (err instanceof multer.MulterError) {
+    const msg = err.code === 'LIMIT_FILE_SIZE' ? 'File is too large' : err.message;
+    error = new ApiError(400, msg);
   } else if (err.name === 'JsonWebTokenError') {
     error = new ApiError(401, 'Invalid token');
   } else if (err.name === 'TokenExpiredError') {
