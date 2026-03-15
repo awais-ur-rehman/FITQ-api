@@ -3,7 +3,7 @@ import User from '../models/User';
 import Scan from '../models/Scan';
 import ApiError from '../utils/apiError';
 
-interface ScoreDistribution {
+export interface ScoreDistribution {
   '0-3': number;
   '4-5': number;
   '6-7': number;
@@ -11,12 +11,12 @@ interface ScoreDistribution {
   '10': number;
 }
 
-interface MonthlyCount {
+export interface MonthlyCount {
   month: string;
   count: number;
 }
 
-interface UserStatsResult {
+export interface UserStatsResult {
   totalScans: number;
   averageScore: number;
   highestScore: number;
