@@ -55,13 +55,16 @@ class ScanService {
     }
 
     // 2. Upload to Cloudinary and analyze with Gemini (parallel — both use the buffer)
+    // Track publicId eagerly so cleanup works even if Gemini fails after Cloudinary succeeds
     let uploadedPublicId: string | null = null;
     try {
       const [uploadResult, analysis] = await Promise.all([
-        cloudinaryService.uploadScanImage(file.buffer, userId),
+        cloudinaryService.uploadScanImage(file.buffer, userId).then((r) => {
+          uploadedPublicId = r.publicId;
+          return r;
+        }),
         geminiService.analyzeOutfit(file.buffer, file.mimetype),
       ]);
-      uploadedPublicId = uploadResult.publicId;
 
       // 3. Save scan
       const scan = await Scan.create({
