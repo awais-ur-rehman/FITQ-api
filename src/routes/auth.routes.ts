@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Request } from 'express';
+import { ipKeyGenerator } from 'express-rate-limit';
 import { auth } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import { createRateLimiter } from '../middleware/rateLimiter';
@@ -44,7 +45,7 @@ const resendOtpLimiter = createRateLimiter({
   message: 'Too many OTP requests. Please try again later.',
   keyGenerator: (req: Request): string => {
     const email = req.body?.email as string | undefined;
-    return email?.toLowerCase().trim() ?? req.ip ?? 'unknown';
+    return email?.toLowerCase().trim() ?? ipKeyGenerator(req.ip ?? '');
   },
 });
 

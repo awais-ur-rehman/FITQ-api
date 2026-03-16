@@ -138,9 +138,4 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-// ─── Indexes ──────────────────────────────────────────────────────────────────
-
-userSchema.index({ email: 1 }, { unique: true });
-userSchema.index({ username: 1 }, { unique: true });
-
 export default mongoose.model<IUser>('User', userSchema);
