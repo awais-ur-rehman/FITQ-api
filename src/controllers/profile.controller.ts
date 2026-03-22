@@ -25,8 +25,8 @@ export const updateProfile = asyncHandler(async (req: Request, res: Response) =>
 
 export const uploadAvatar = asyncHandler(async (req: Request, res: Response) => {
   if (!req.file) throw new ApiError(400, 'Image file is required');
-  const avatarUrl = await profileService.uploadAvatar(req.user!.id, req.file.buffer);
-  success(res, null, { avatarUrl });
+  const user = await profileService.uploadAvatar(req.user!.id, req.file.buffer);
+  success(res, null, { user });
 });
 
 export const changePassword = asyncHandler(async (req: Request, res: Response) => {

@@ -40,13 +40,12 @@ class ProfileService {
     return user;
   }
 
-  async uploadAvatar(userId: string, buffer: Buffer): Promise<string> {
+  async uploadAvatar(userId: string, buffer: Buffer): Promise<IUser> {
     const user = await User.findById(userId);
     if (!user) throw new ApiError(404, 'User not found');
 
     const { imageUrl, publicId } = await cloudinaryService.uploadAvatarImage(buffer);
 
-    // Delete old avatar from Cloudinary
     if (user.avatarUrl) {
       const oldPublicId = this.extractPublicId(user.avatarUrl);
       if (oldPublicId) {
@@ -56,11 +55,9 @@ class ProfileService {
 
     user.avatarUrl = imageUrl;
     await user.save();
-
-    // Store publicId for future reference (not blocking)
     void publicId;
 
-    return imageUrl;
+    return user;
   }
 
   async changePassword(

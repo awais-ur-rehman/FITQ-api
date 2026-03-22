@@ -21,7 +21,7 @@ class CloudinaryService {
             width: 400,
             crop: 'fill',
             quality: 'auto',
-            format: 'auto',
+            format: 'jpg',
             secure: true,
           });
           resolve({

@@ -75,10 +75,15 @@ class AuthService {
 
   async login(email: string, password: string): Promise<AuthResult> {
     const user = await User.findOne({ email }).select('+passwordHash +refreshToken');
+    console.log('[AUTH] user found:', !!user, '| email queried:', email);
     if (!user) throw new ApiError(401, 'Invalid email or password');
     if (!user.isVerified) throw new ApiError(403, 'Email not verified', { email });
 
+    console.log('[AUTH] passwordHash from DB:', user.passwordHash);
+    console.log('[AUTH] password from request:', password);
+    console.log('[AUTH] password byte length:', Buffer.byteLength(password, 'utf8'));
     const isMatch = await bcrypt.compare(password, user.passwordHash);
+    console.log('[AUTH] bcrypt match result:', isMatch);
     if (!isMatch) throw new ApiError(401, 'Invalid email or password');
 
     const accessToken = tokenService.generateAccessToken(user.id as string, email);
